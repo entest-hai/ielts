@@ -22,7 +22,7 @@ struct Question {
 
 class QuestionModel: ObservableObject {
     @Published var questions: [Question] = [
-        Question(question: "What is the highest paid programming language in the world in 2021", optionA: "C", optionB: "C++", optionC: "Python", optionD: "Swift"),
+        Question(question: "What is the highest paid programming language in the world in 2021? What is the highest paid programming language in 2021?", optionA: "C", optionB: "C++", optionC: "Python", optionD: "Swift"),
         Question(question: "What is the highest paid programming language in the world in 2022", optionA: "C", optionB: "C++", optionC: "Python", optionD: "Swift"),
         Question(question: "What is the highest paid programming language in the world in 2023", optionA: "C", optionB: "C++", optionC: "Python", optionD: "Swift"),
         Question(question: "What is the highest paid programming language in the world in 2024", optionA: "C", optionB: "C++", optionC: "Python", optionD: "Swift"),
@@ -56,6 +56,25 @@ struct QuestionScrollView :View {
             }
         }
         
+    }
+}
+
+struct OptionRowView : View {
+    @Binding var selected: Int
+    var index: Int
+    
+    var body: some View {
+        HStack{
+            Text("Option \(index)")
+            Spacer()
+        }
+        .padding()
+        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+        .background(self.selected == self.index ? Color.green : Color.white)
+        .cornerRadius(8)
+        .onTapGesture {
+            self.selected = self.index
+        }
     }
 }
 
@@ -98,9 +117,10 @@ struct QuestionView :View {
                         .foregroundColor(Color.white)
                 }
             }
-            .frame(maxWidth: .infinity)
-            .frame(height: 50)
-            .background(Color.purple)
+            .padding()
+                //            .frame(maxWidth: .infinity)
+                .frame(height: 50)
+                .background(Color.purple)
             
             Spacer(minLength: 0)
             
@@ -111,17 +131,9 @@ struct QuestionView :View {
                     List{
                         Section(header: Text(self.sot.questions[self.currentIndex].question)) {
                             ForEach(0..<4){index in
-                                HStack{
-                                    Text("Option \(index)")
-                                    Spacer()
-                                }
-                                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                                .background(self.sot.questions[self.currentIndex].selected == index ? Color.green : Color.white)
-                                .cornerRadius(8)
-                                .onTapGesture {
-                                    self.sot.questions[self.currentIndex].selected = index
-                                }
+                                OptionRowView(selected: self.$sot.questions[self.currentIndex].selected, index: index)
                             }
+                            .listRowBackground(Color.white)
                         }
                     }
                     .padding(.top,0)
@@ -130,9 +142,9 @@ struct QuestionView :View {
             
             Spacer()
         }
-        .frame(maxWidth: .infinity)
-        .frame(height: self.isCollapse ? 0 : UIScreen.main.bounds.height / 2.5)
-        .background(Color.white)
+            //        .frame(maxWidth: .infinity)
+            .frame(height: self.isCollapse ? 0 : UIScreen.main.bounds.height / 2.5)
+            .background(Color.white)
     }
     
     func nextQuestion(){
@@ -145,7 +157,7 @@ struct QuestionView :View {
 }
 
 
-struct SolutionTwoView: View {
+struct ReadingView: View {
     var body: some View {
         GeometryReader {width in
             ZStack{
@@ -157,20 +169,16 @@ struct SolutionTwoView: View {
                     Spacer()
                     QuestionView()
                 }
-                .padding(.bottom)
+                //                .padding()
             }
-//            .padding([.top, .bottom])
+            //                        .padding([.top, .bottom])
         }
     }
 }
 
-
-
-
 struct ContentView : View {
     var body: some View {
-        SolutionTwoView()
-        //        SolutionOneView()
-        //        SolutionThreeView()
+        ReadingView()
+        //        TestListView()
     }
 }
