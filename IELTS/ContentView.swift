@@ -216,11 +216,11 @@ struct TestQuestionView : View {
                                         .frame(maxWidth: UIScreen.main.bounds.width - 30, alignment: .leading)
                                         .background(Color.white)
                                         .cornerRadius(5)
-//                                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray, lineWidth: 1))
-                                    
+                                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray, lineWidth: 1))
                                 }
                             }
                         }
+                        .padding([.leading, .trailing], 5)
                     }
                     .frame(maxWidth: .infinity)
                     .frame(height: UIScreen.main.bounds.height / 3)
@@ -244,9 +244,42 @@ struct TestReadingView : View {
     }
 }
 
+
+struct TestBorderView : View  {
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 10){
+                
+                Text("Click")
+                .padding()
+                    .frame(maxWidth: UIScreen.main.bounds.width - 30, alignment: .leading)
+                    .background(Color.green)
+                    .cornerRadius(5)
+                    .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.red, lineWidth: 2))
+                
+                
+                Button(action: {
+                    print("Tap")
+                }){
+                    Text("Click")
+                        .frame(maxWidth: UIScreen.main.bounds.width - 30, alignment: .leading)
+                }
+                .frame(width: UIScreen.main.bounds.width - 30, height: 50)
+                .background(Color.green)
+                .cornerRadius(5)
+                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.red, lineWidth: 2))
+            }
+            .padding([.leading, .trailing], 5)
+        }
+        
+    
+    }
+}
+
 struct ContentView : View {
     var body: some View {
         //        ReadingView()
         TestReadingView()
+//        TestBorderView()
     }
 }
