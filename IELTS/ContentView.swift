@@ -176,8 +176,30 @@ struct ReadingView: View {
     }
 }
 
+
+struct TestOptionView : View {
+    var index: Int
+    @Binding var selected: Int
+    
+    var body: some View {
+        Text("Option \(self.index)")
+            .padding()
+            .frame(maxWidth: UIScreen.main.bounds.width - 30, alignment: .leading)
+            .background(self.selected == self.index ? Color("option") : Color.white)
+            .cornerRadius(5)
+            .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray, lineWidth: 1))
+            .onTapGesture {
+                self.selected = self.index
+        }
+    }
+}
+
 struct TestQuestionView : View {
     @State var hideQuestion: Bool = false
+    @ObservedObject var sot = QuestionModel()
+    @State var currentIndex: Int = 0
+    @State var selected: Int = -1
+    
     var body: some View {
         VStack{
             HStack{
@@ -204,19 +226,15 @@ struct TestQuestionView : View {
                 } else {
                     ScrollView{
                         VStack(spacing: 4){
-                            Text("What is the highest paid programming language in the world in 2021? What is the highest paid cerfiticate also?")
+                            Text(self.sot.questions[self.currentIndex].question)
                                 .fontWeight(.bold)
                                 .padding()
                                 .frame(maxWidth: UIScreen.main.bounds.width - 30, alignment: .leading)
                                 .cornerRadius(5)
                             VStack(spacing: 4){
                                 ForEach(0..<4){index in
-                                    Text("Option \(index)")
-                                        .padding()
-                                        .frame(maxWidth: UIScreen.main.bounds.width - 30, alignment: .leading)
-                                        .background(Color.white)
-                                        .cornerRadius(5)
-                                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray, lineWidth: 1))
+                                    TestOptionView(index: index,
+                                                   selected: self.$sot.questions[self.currentIndex].selected)
                                 }
                             }
                         }
