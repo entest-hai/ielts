@@ -90,7 +90,7 @@ struct QuestionView :View {
                 Button(action:{
                     self.prevQuestion()
                 }){
-                    Image(systemName: "arrowtriangle.left.fill")
+                    Image(systemName: "chevron.left")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(height: 20)
@@ -100,17 +100,17 @@ struct QuestionView :View {
                 Button(action:{
                     self.isCollapse.toggle()
                 }){
-                    Image(systemName: self.isCollapse ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
+                    Image(systemName: self.isCollapse ? "chevron.up" : "chevron.down")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 20)
+                        .frame(width: 20)
                         .foregroundColor(Color.white)
                 }
                 Spacer()
                 Button(action:{
                     self.nextQuestion()
                 }){
-                    Image(systemName: "arrowtriangle.right.fill")
+                    Image(systemName: "chevron.right")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(height: 20)
@@ -120,7 +120,7 @@ struct QuestionView :View {
             .padding()
                 //            .frame(maxWidth: .infinity)
                 .frame(height: 50)
-                .background(Color.purple)
+                .background(Color("collapse"))
             
             Spacer(minLength: 0)
             
@@ -171,14 +171,76 @@ struct ReadingView: View {
                 }
                 //                .padding()
             }
-            //                        .padding([.top, .bottom])
+            .padding([.top, .bottom])
+        }
+    }
+}
+
+struct TestQuestionView : View {
+    @State var hideQuestion: Bool = false
+    var body: some View {
+        VStack{
+            HStack{
+                Spacer()
+                Button(action:{
+                    self.hideQuestion.toggle()
+                }){
+                    Image(systemName: self.hideQuestion ? "chevron.up" : "chevron.down")
+                }
+                Spacer()
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 40)
+            .background(Color("collapse"))
+            .foregroundColor(Color.white)
+            
+            Group(){
+                if self.hideQuestion {
+                    EmptyView()
+                } else {
+                    ScrollView{
+                        VStack(spacing: 3){
+                            Text("What is the highest paid programming language in the world in 2021? What is the highest paid cerfiticate also?")
+                                .fontWeight(.bold)
+                                .padding()
+                                .frame(maxWidth: UIScreen.main.bounds.width - 30, alignment: .leading)
+                                .cornerRadius(5)
+                            VStack(spacing: 3){
+                                ForEach(0..<4){index in
+                                    Text("Option \(index)")
+                                        .padding()
+                                        .frame(maxWidth: UIScreen.main.bounds.width - 30, alignment: .leading)
+                                        .background(Color.white)
+                                        .cornerRadius(5)
+                                }
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: UIScreen.main.bounds.height / 3)
+                }
+            }
+        }
+        .background(Color("question"))
+    }
+}
+
+struct TestReadingView : View {
+    var body: some View {
+        ZStack {
+            Color.white
+            
+            VStack {
+                Spacer()
+                TestQuestionView()
+            }
         }
     }
 }
 
 struct ContentView : View {
     var body: some View {
-        ReadingView()
-        //        TestListView()
+        //        ReadingView()
+        TestReadingView()
     }
 }
