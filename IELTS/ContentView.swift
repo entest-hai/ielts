@@ -181,16 +181,20 @@ struct TestQuestionView : View {
     var body: some View {
         VStack{
             HStack{
-                Spacer()
                 Button(action:{
                     self.hideQuestion.toggle()
                 }){
                     Image(systemName: self.hideQuestion ? "chevron.up" : "chevron.down")
                 }
                 Spacer()
+                Text("Question 1/\(11)")
+                    .fontWeight(.bold)
+                    .foregroundColor(Color.white)
+                Spacer()
             }
+            .padding([.leading, .trailing], 15)
             .frame(maxWidth: .infinity)
-            .frame(height: 40)
+            .frame(height: 50)
             .background(Color("collapse"))
             .foregroundColor(Color.white)
             
@@ -199,19 +203,21 @@ struct TestQuestionView : View {
                     EmptyView()
                 } else {
                     ScrollView{
-                        VStack(spacing: 3){
+                        VStack(spacing: 4){
                             Text("What is the highest paid programming language in the world in 2021? What is the highest paid cerfiticate also?")
                                 .fontWeight(.bold)
                                 .padding()
                                 .frame(maxWidth: UIScreen.main.bounds.width - 30, alignment: .leading)
                                 .cornerRadius(5)
-                            VStack(spacing: 3){
+                            VStack(spacing: 4){
                                 ForEach(0..<4){index in
                                     Text("Option \(index)")
                                         .padding()
                                         .frame(maxWidth: UIScreen.main.bounds.width - 30, alignment: .leading)
                                         .background(Color.white)
                                         .cornerRadius(5)
+//                                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray, lineWidth: 1))
+                                    
                                 }
                             }
                         }
